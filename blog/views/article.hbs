@@ -76,6 +76,7 @@
             <form action="/comment/post/{{article.id}}" method="post" id="answer_form">
               <input type="hidden" name="post_hash" value="{{article.post_hash}}"/>
               <input type="hidden" name="article_id" value="{{article.id}}"/>
+              <input type="hidden" name="article_title" value="{{article.title}}"/>
               <input type="hidden" name="to_id" value="{{user.id}}"/>
               <div class="mod-head">
                 <a href="http://wenda.golaravel.com/people/" class="aw-user-name"><img alt="peng"
@@ -125,8 +126,7 @@
   </div>
 </div>
 
+<script src="/public/xss/dist/xss.js"></script>
 <script>
-
-
 
 </script>

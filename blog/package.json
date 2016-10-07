@@ -27,6 +27,7 @@
     "gm": "^1.23.0",
     "handlebars": "^4.0.5",
     "install": "^0.8.1",
+    "markdown-it": "^8.0.0",
     "mysql": "^2.11.1",
     "node-time-ago": "^1.0.0",
     "nodemailer": "^2.6.0",
@@ -35,7 +36,8 @@
     "session.socket.io": "^0.2.1",
     "socket.io": "^1.4.8",
     "socket.io-session": "0.0.5",
-    "utility": "^1.8.0"
+    "utility": "^1.8.0",
+    "xss": "^0.2.13"
   },
   "devDependencies": {
     "browser-sync": "^2.16.0",

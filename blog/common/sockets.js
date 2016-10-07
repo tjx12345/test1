@@ -14,14 +14,12 @@ function Sockets(app, http) {
             //sid是s:aX18zDG0ZhZUrq2sJL4YQ6FYO2m1d1B2.sjdnbT7xypmBZQg6UbkZ+Dz493jBxKJUFOtjyZYIqq0
             //在sessionStore构造的时候传入了transformId 来修正其值为aX18zDG0ZhZUrq2sJL4YQ6FYO2m1d1B2 获取session
             sessionStore.get(sid, function(err, session) {
-                console.log('找到session',sid);
                 if (err || !session) {
                     return next('无法查询到session');
                 }
 
                 if(session.user &&　session.user.id){//将用户名作为key挂载到io的socket队列上
                   io.sockets.sockets[session.user.id] = socket.id;
-                  console.log('socket :24:io.sockets.sockets',io.sockets.sockets);
                   return next();
                 }
             });
@@ -30,14 +28,10 @@ function Sockets(app, http) {
         }
     });
     io.on('connection', function(socket) {
-
-        console.log('conn', ':连进来了,socketid:'+socket.id);
     });
     io.on('disconnection', function(socket) {
-        console.log('conn' + socket.id);
     });
     io.on('chat message', function(msg) {
-        console.log('caht' + msg);
     });
     Sockets.prototype.io = io;
     Sockets.io = io;

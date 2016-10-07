@@ -3,29 +3,30 @@
         Copyright © 2016, All Rights Reserved</span>
         <span class="hidden-xs">Powered By <a href="http://www.itcast.cn" target="blank">ITcast</a></span>
         <script>
-        function showNotice() {
-        Notification.requestPermission(function (perm) {
-            if (perm == "granted") {
-                var notification = new Notification("这是一个通知撒:", {
-                    dir: "auto",
-                    lang: '<a href:"/">请点击</a>',
-                    tag: '<a href:"/">请点击</a>',
-                    icon: "https://static.cnblogs.com/images/adminlogo.gif",
-                    body: '<a href:"/">请点击</a>',
-                    data: '<a href:"/">请点击</a>',
-                });
+            function showNotice(noticeObj) {
+                Notification.requestPermission(function(perm) {
+                    if (perm == "granted") {
+                        var notification = new Notification(noticeObj.noticeName, {
+                            dir: noticeObj.dir,
+                            lang: noticeObj.lang,
+                            tag: noticeObj.tag,
+                            icon: noticeObj.icon,
+                            body: noticeObj.body,
+                            data: noticeObj.data,
+                        });
 
-                notification.onclick = function(){
-                  window.location.href = '/aaa/1';
-                }
-                console.log(notification);
+                        notification.onclick = function() {
+                            window.location.href = noticeObj.url;
+                        }
+                        console.log(notification);
+                    }
+                })
             }
-        })
-    }
-          var socket = io({{'http://' + config.host+':' + config.port}});
-          socket.on('myMsg', function(msg){
-              showNotice();
-          });
+            var socket = io('http://{{host}}:{{port}}');
+            socket.on('myMsg', function(msg) {
+                alert(msg);
+                showNotice(JSON.parse(msg));
+            });
         </script>
     </div>
 </div>

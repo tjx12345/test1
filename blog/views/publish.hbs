@@ -132,7 +132,7 @@
                         var content = editor.codemirror.getValue();
 
                         // 拿着服务器返回的图片src地址，拼接到原来的内容
-                        content = content + '<img src="http://127.0.0.1:3000'+src+'" alt="图片"></img>';
+                        content = content + '![图片](http://{{host}}:{{port}}' + src + ')';
                         // 设置富文本编辑器的内容
                         editor.codemirror.setValue(content);
 

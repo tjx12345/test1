@@ -13,6 +13,8 @@ const comment = require('../controllers/comment');
 const utile = require('utility');
 const Promise = require('bluebird');
 const async = require('async');
+const md = require('markdown-it')();
+const xss = require('xss');
 
 
 exports.showArticles = function(req, res, next) {
@@ -26,7 +28,7 @@ exports.showArticles = function(req, res, next) {
     let pager;
     new Promise(function(resolve, reject) {
         Article.getTotalPage(function(err, result) {
-            totalPage = result[0].total / viewPage; //62
+            totalPage = Math.ceil(result[0].total / viewPage); //62
             pager = new Page({
                     currentPage: currentPage,
                     totalPage: totalPage,
@@ -48,7 +50,8 @@ exports.showArticles = function(req, res, next) {
     .catch(function(e){
         console.log(e.stack);
         next(e);
-      next()
+
+
     });
     //一共多少页//select count(*) from articles
     //  async.series([function(callback){
@@ -82,7 +85,7 @@ exports.getArticleByName = function(req, res, next) {
     // 'select * from articles where title like '%qq%''
     Article.getTotalPageByCondition(searchQuery, function(err, result) {
         let viewPage = req.app.locals.config.viewPage;
-        let totalPage = result[0].total / viewPage;
+        let totalPage = Math.ceil(result[0].total / viewPage);
         //分页查询 0,5  4,5
         let currentPage = req.query.current || 1;
         let offset = (currentPage - 1) * viewPage;
@@ -126,6 +129,7 @@ exports.doUpload = function(req, res, next) {
         let file = files.pic; //系统临时文件对象
         let sourcePath = file.path; //系统临时文件路径
         //(+new Date() 为了保证目录不重名,文件不被覆盖
+        path.sep = '/';
         const tempPath = path.join('/public', '/upload', '/img', '/' + (+new Date()), file.name);
         let distPath = path.join(req.app.locals.config.rootPath, tempPath);
         //原生fs不能跨目录移动,不能自动创建移动中的文件夹
@@ -150,6 +154,7 @@ exports.showArticle = function(req, res, next) {
         let obj = getBeans(result);
         let user = obj.users[0];
         let article = obj.articles[0];
+        article.content = decodeURI(md.render(article.content));//将md格式转换成html
         article.showTime = timeAgo(article.time);
         comment.getCommentsAndUserByAid(article.id, function(err, comments) {
             if (err) next(err);

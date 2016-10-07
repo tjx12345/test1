@@ -2,6 +2,7 @@
  * Created by tujunxiong on 2016/9/10.
  */
 const db = require('./db');
+
 function Comment(comment) {
    this.id = comment.id;
    this.content = comment.content;
@@ -24,7 +25,7 @@ WHERE
 };
 
 Comment.prototype.save = function(callback){
-  db.query(`insert into comments (content,time,uid,aid) 
+  db.query(`insert into comments (content,time,uid,aid)
   values (?,now(),?,?)`,[this.content,this.uid,this.aid],callback) ;
 };
 module.exports = Comment;

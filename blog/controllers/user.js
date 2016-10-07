@@ -85,7 +85,6 @@ exports.doLogin = function (req, res, next) {
       if (user.password != formUser.password)
          return res.render('login', {msg: '密码错误!'});
       //3.5 : remember_me 0/1 记录到数据库中-->  如果查询出来的和选择的结果一致,不需要浪费查询一次
-      console.log(user.remember_me, formUser.remember_me);
       if (user.remember_me != formUser.remember_me) {
          User.updateRememberFlag(formUser.remember_me || false, user.id, function (err, result) {
             if (err)next(err);

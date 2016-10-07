@@ -1,4 +1,4 @@
-﻿drop trigger answer_inc_trigger; 
+﻿drop trigger answer_inc_trigger;
 create trigger answer_inc_trigger
  after insert on comments
  for each row

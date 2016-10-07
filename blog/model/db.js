@@ -10,8 +10,14 @@ const config = require('../config');
 //
 // });
 
-
-
+//创建数据库连接池来管理数据库连接
+const pool = mysql.createPool({
+   user:config.dbname,
+   password:config.dbpsw,
+   connectionLimit:80,
+   host:config.host,
+   database:config.database
+});
 
 module.exports.query = function(sql,p,c){
    let callback;
@@ -25,16 +31,10 @@ module.exports.query = function(sql,p,c){
       console.log('------------',sql,p,c);
       throw new Error('使用参数不正确,请查看db.js');
    }
-   //创建数据库连接池来管理数据库连接
-   const pool = mysql.createPool({
-      user:config.dbname,
-      password:config.dbpsw,
-      connectionLimit:80,
-      host:config.host,
-      database:config.database
-   });
+
    //获取一个连接
    pool.getConnection(function(err,connection){
+     //console.log(pool._allConnections);
       connection.query(sql,params,function(err,result){
           //  console.log(sql,params);
             connection.commit();//提交数据
